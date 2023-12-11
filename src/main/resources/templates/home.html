@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta charset="UTF=8"/>
+    <title></title>
+</head>
+<body>
+<section class="container">
+    <h1>Auditionees List</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Rating</th>
+            <th>Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="auditionee : ${auditionees}">
+            <td th:text="${auditionee.name}"></td>
+            <td th:text="${auditionee.rating}"></td>
+            <td>
+                <a th:href="@{/individual/{id}(id=${auditionee.id})}">
+                    <button class="btn btn-primary">View/Edit</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+
+</body>
+</html>
+
+</body>
+</html>

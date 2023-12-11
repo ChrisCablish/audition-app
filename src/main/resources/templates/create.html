@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta charset="UTF=8"/>
+    <title></title>
+</head>
+<body>
+<section class="container" style="display: flex; flex-direction: column; align-items: center;">
+    <h1>Create New Auditionee</h1>
+    <form>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" aria-describedby="firstandlast">
+            <small id="firstandlast" class="form-text text-muted">First and Last Name</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Rating</label>
+            <select class="form-control" id="exampleFormControlSelect1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</section>
+
+
+</body>
+</html>
