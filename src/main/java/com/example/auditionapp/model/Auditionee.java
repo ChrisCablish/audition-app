@@ -12,7 +12,7 @@ public class Auditionee {
 
     @ManyToMany
     @JoinTable(
-            name = "AuditioneeStrengths",
+            name = "auditionee_strengths",
             joinColumns = @JoinColumn(name = "auditionee_id"),
             inverseJoinColumns = @JoinColumn(name = "attribute_id")
     )
@@ -20,7 +20,7 @@ public class Auditionee {
 
     @ManyToMany
     @JoinTable(
-            name = "AuditioneeWeaknesses",
+            name = "auditionee_weaknesses",
             joinColumns = @JoinColumn(name = "auditionee_id"),
             inverseJoinColumns = @JoinColumn(name = "attribute_id")
     )
@@ -28,7 +28,7 @@ public class Auditionee {
 
     @ManyToMany
     @JoinTable(
-            name = "AuditioneeNotes",
+            name = "auditionee_notes",
             joinColumns = @JoinColumn(name = "auditionee_id"),
             inverseJoinColumns = @JoinColumn(name = "noteentry_id")
     )

@@ -21,6 +21,10 @@ public class AttributeService {
         return (List<Attribute>) attributeRepository.findAll();
     }
 
+    public Attribute getById (Long id) {
+        return  attributeRepository.findById(id).orElse(null);
+    }
+
     public Attribute addAttribute(Attribute attribute) {
         return attributeRepository.save(attribute);
     }
