@@ -8,27 +8,6 @@
 <body>
 <section class="container" >
     <h1>Create New Auditionee</h1>
-<!--    <form>-->
-<!--        <div class="form-group">-->
-<!--            <label for="name">Name</label>-->
-<!--            <input type="text" class="form-control" id="name" aria-describedby="firstandlast">-->
-<!--            <small id="firstandlast" class="form-text text-muted">First and Last Name</small>-->
-<!--        </div>-->
-<!--        <div class="form-group">-->
-<!--            <label for="exampleFormControlSelect1">Rating</label>-->
-<!--            <select class="form-control" id="exampleFormControlSelect1">-->
-<!--                <option>1</option>-->
-<!--                <option>2</option>-->
-<!--                <option>3</option>-->
-<!--                <option>4</option>-->
-<!--                <option>5</option>-->
-<!--            </select>-->
-<!--        </div>-->
-<!--        <button type="submit" class="btn btn-primary">Create</button>-->
-<!--    </form>-->
-
-
-
     <form>
 <!--        NAME-->
         <div class="form-group">
@@ -39,21 +18,14 @@
         <div class="form-group">
             <label for="rating">Rating</label>
             <select class="form-select" aria-label="rating" id="rating">
-                <option selected>1</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
-                <option value="5">5</option>
+                <option value="5" selected>5</option>
             </select>
         </div>
 <!--        STRENGTHS-->
-<!--        <div class="form-group">-->
-<!--            <label for="strengths">Strengths</label>-->
-<!--            <select class="form-select" aria-label="strengths" id="strengths">-->
-<!--                <option th:each="attribute : ${attributes}" value="${attribute.id}" th:text="${attribute.name}"></option>-->
-<!--            </select>-->
-<!--        </div>-->
             <div class="form-group">
                 <label>Strengths</label>
                 <div class="form-check form-check-inline" th:each = "attribute : ${attributes}">
@@ -74,20 +46,14 @@
             <label for="notes">Notes</label>
             <textarea class="form-control" id="notes" rows="6"></textarea>
         </div>
-
+<!--            IMAGE UPLOAD-->
         <div class="form-group">
             <div class="mb-3">
                 <label for="formFile" class="form-label">Upload Auditionee Photo</label>
-                <input class="form-control" type="file" id="formFile">
+                <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg">
             </div>
         </div>
-
     </form>
-
-
-
 </section>
-
-
 </body>
 </html>
