@@ -30,48 +30,58 @@
 
 
     <form>
-        <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
-            <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3">
-            </div>
+<!--        NAME-->
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="email" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Auditionee Name">
         </div>
-        <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3">
-            </div>
+        <!--        RATING-->
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <select class="form-select" aria-label="rating" id="rating">
+                <option selected>1</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
         </div>
-        <fieldset class="form-group">
-            <div class="row">
-                <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
-                <div class="col-sm-10">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check1">
-                        <label class="form-check-label" for="check1">
-                            Example checkbox
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check2">
-                        <label class="form-check-label" for="check2">
-                            Example checkbox
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check3">
-                        <label class="form-check-label" for="check3">
-                            Example checkbox
-                        </label>
-                    </div>
+<!--        STRENGTHS-->
+<!--        <div class="form-group">-->
+<!--            <label for="strengths">Strengths</label>-->
+<!--            <select class="form-select" aria-label="strengths" id="strengths">-->
+<!--                <option th:each="attribute : ${attributes}" value="${attribute.id}" th:text="${attribute.name}"></option>-->
+<!--            </select>-->
+<!--        </div>-->
+            <div class="form-group">
+                <label>Strengths</label>
+                <div class="form-check form-check-inline" th:each = "attribute : ${attributes}">
+                    <input class="form-check-input" type="checkbox" id="strength" value="${attribute.id}">
+                    <label class="form-check-label" for="strength" th:text = "${attribute.name}"></label>
                 </div>
             </div>
-        </fieldset>
-        <div class="form-group row">
-            <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary">Sign in</button>
+<!--        WEAKNESSES-->
+        <div class="form-group">
+            <label>Weaknesses</label>
+            <div class="form-check form-check-inline" th:each = "attribute : ${attributes}">
+                <input class="form-check-input" type="checkbox" id="weakness" value="${attribute.id}">
+                <label class="form-check-label" for="weakness" th:text = "${attribute.name}"></label>
             </div>
         </div>
+<!--        NOTES-->
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea class="form-control" id="notes" rows="6"></textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Upload Auditionee Photo</label>
+                <input class="form-control" type="file" id="formFile">
+            </div>
+        </div>
+
     </form>
 
 

@@ -1,20 +1,26 @@
 package com.example.auditionapp.controller;
 
+import com.example.auditionapp.model.Attribute;
 import com.example.auditionapp.model.Auditionee;
+import com.example.auditionapp.service.AttributeService;
 import com.example.auditionapp.service.AuditioneeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
 public class AuditioneeController {
 
     private final AuditioneeService auditioneeService;
+    private final AttributeService attributeService;
 
     @Autowired
-    public AuditioneeController(AuditioneeService auditioneeService) {
+    public AuditioneeController(AuditioneeService auditioneeService, AttributeService attributeService) {
         this.auditioneeService = auditioneeService;
+        this.attributeService = attributeService;
     }
 
     @GetMapping("/")
@@ -25,7 +31,9 @@ public class AuditioneeController {
     }
 
     @GetMapping("/create")
-    public String displayCreateAuditioneeForm () {
+    public String displayCreateAuditioneeForm (Model model) {
+        List<Attribute> attributes = attributeService.getAllAttributes();
+        model.addAttribute("attributes", attributes);
         return "create";
     }
 
