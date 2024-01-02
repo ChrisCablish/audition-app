@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -34,7 +36,14 @@ public class AuditioneeController {
     public String displayCreateAuditioneeForm (Model model) {
         List<Attribute> attributes = attributeService.getAllAttributes();
         model.addAttribute("attributes", attributes);
+        model.addAttribute("auditionee", new Auditionee());
         return "create";
+    }
+
+    @PostMapping("/create")
+    public String submitCreateForm (@ModelAttribute("auditionee") Auditionee auditionee) {
+        auditioneeService.addAuditionee(auditionee);
+        return "redirect:/";
     }
 
 }

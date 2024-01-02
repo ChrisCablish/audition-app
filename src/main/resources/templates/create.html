@@ -8,16 +8,16 @@
 <body>
 <section class="container" >
     <h1>Create New Auditionee</h1>
-    <form>
+    <form th:action="@{/create}" th:object="${auditionee}" method="post">
 <!--        NAME-->
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="email" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Auditionee Name">
+            <input type="text" th:field="*{name}" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Auditionee Name">
         </div>
         <!--        RATING-->
         <div class="form-group">
             <label for="rating">Rating</label>
-            <select class="form-select" aria-label="rating" id="rating">
+            <select class="form-select" th:field="*{rating}" aria-label="rating" id="rating">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -53,6 +53,7 @@
                 <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg">
             </div>
         </div>
+        <button type="submit" class="btn btn-primary">Create</button>
     </form>
 </section>
 </body>

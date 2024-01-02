@@ -6,7 +6,7 @@ import java.util.List;
 @Entity
 public class Auditionee {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
@@ -34,6 +34,8 @@ public class Auditionee {
     )
     private List<NoteEntry> notes;
 
+    @OneToOne(mappedBy = "auditionee", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private Image image;
 
     private int rating;
 
