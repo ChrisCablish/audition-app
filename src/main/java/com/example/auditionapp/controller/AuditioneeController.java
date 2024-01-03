@@ -7,12 +7,10 @@ import com.example.auditionapp.service.AuditioneeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -43,13 +41,25 @@ public class AuditioneeController {
     }
 
     @PostMapping("/create")
-    public String submitCreateForm (@ModelAttribute("auditionee") Auditionee auditionee, @RequestParam List<Long> strengths) {
+    public String submitCreateForm (@ModelAttribute("auditionee") Auditionee auditionee, @RequestParam List<Long> strengths, @RequestParam List<Long> weaknesses) {
         List<Attribute> strengthAttributes = strengths.stream()
                 .map(attributeService::getById)
                 .collect(Collectors.toList());
         auditionee.setStrengths(strengthAttributes);
+
+        List<Attribute> weaknessAttributes = weaknesses.stream().
+                map(attributeService::getById)
+                .collect(Collectors.toList());
+        auditionee.setWeaknesses(weaknessAttributes);
+
         auditioneeService.addAuditionee(auditionee);
         return "redirect:/";
+    }
+
+    @GetMapping("/individual/{id}")
+    public String displayIndividual (@PathVariable("id") Long id, Model model) {
+        model.addAttribute("auditionee", auditioneeService.getById(id));
+        return "individual";
     }
 
 }
