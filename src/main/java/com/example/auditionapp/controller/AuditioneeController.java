@@ -42,6 +42,7 @@ public class AuditioneeController {
 
     @PostMapping("/create")
     public String submitCreateForm (@ModelAttribute("auditionee") Auditionee auditionee, @RequestParam List<Long> strengths, @RequestParam List<Long> weaknesses) {
+
         List<Attribute> strengthAttributes = strengths.stream()
                 .map(attributeService::getById)
                 .collect(Collectors.toList());

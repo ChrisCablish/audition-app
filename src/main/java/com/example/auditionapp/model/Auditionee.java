@@ -1,6 +1,7 @@
 package com.example.auditionapp.model;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,13 +27,8 @@ public class Auditionee {
     )
     private List<Attribute> weaknesses;
 
-    @ManyToMany
-    @JoinTable(
-            name = "auditionee_notes",
-            joinColumns = @JoinColumn(name = "auditionee_id"),
-            inverseJoinColumns = @JoinColumn(name = "noteentry_id")
-    )
-    private List<NoteEntry> notes;
+    @OneToMany(mappedBy = "auditionee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NoteEntry> notes = new ArrayList<>();
 
     @OneToOne(mappedBy = "auditionee", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Image image;

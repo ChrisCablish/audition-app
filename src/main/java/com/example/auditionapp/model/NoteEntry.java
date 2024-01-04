@@ -1,8 +1,5 @@
 package com.example.auditionapp.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,8 +12,9 @@ public class NoteEntry {
     private LocalDateTime date;
     private String text;
 
-    @ManyToMany(mappedBy = "notes")
-    private List<Auditionee> auditionees;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auditionee_id")
+    private Auditionee auditionee;
 
     public NoteEntry() {
         this.date = LocalDateTime.now();
