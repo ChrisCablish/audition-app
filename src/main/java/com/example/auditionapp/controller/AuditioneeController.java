@@ -2,8 +2,10 @@ package com.example.auditionapp.controller;
 
 import com.example.auditionapp.model.Attribute;
 import com.example.auditionapp.model.Auditionee;
+import com.example.auditionapp.model.NoteEntry;
 import com.example.auditionapp.service.AttributeService;
 import com.example.auditionapp.service.AuditioneeService;
+import com.example.auditionapp.service.NoteEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +20,14 @@ public class AuditioneeController {
 
     private final AuditioneeService auditioneeService;
     private final AttributeService attributeService;
+    private final NoteEntryService noteEntryService;
 
     @Autowired
-    public AuditioneeController(AuditioneeService auditioneeService, AttributeService attributeService) {
+    public AuditioneeController(AuditioneeService auditioneeService, AttributeService attributeService, NoteEntryService noteEntryService) {
         this.auditioneeService = auditioneeService;
         this.attributeService = attributeService;
+        this.noteEntryService = noteEntryService;
+
     }
 
     @GetMapping("/")
@@ -41,7 +46,7 @@ public class AuditioneeController {
     }
 
     @PostMapping("/create")
-    public String submitCreateForm (@ModelAttribute("auditionee") Auditionee auditionee, @RequestParam List<Long> strengths, @RequestParam List<Long> weaknesses) {
+    public String submitCreateForm (@ModelAttribute("auditionee") Auditionee auditionee, @RequestParam List<Long> strengths, @RequestParam List<Long> weaknesses, @RequestParam String noteText) {
 
         List<Attribute> strengthAttributes = strengths.stream()
                 .map(attributeService::getById)
@@ -53,7 +58,17 @@ public class AuditioneeController {
                 .collect(Collectors.toList());
         auditionee.setWeaknesses(weaknessAttributes);
 
+        //create auditionee first to get id
         auditioneeService.addAuditionee(auditionee);
+
+        NoteEntry noteEntry = new NoteEntry();
+        noteEntry.setText(noteText);
+        noteEntry.setAuditionee(auditionee);
+
+        // Save the NoteEntry
+        noteEntryService.addNote(noteEntry);
+
+
         return "redirect:/";
     }
 

@@ -19,6 +19,11 @@
             <ul>
                 <li th:each = "weakness : ${auditionee.weaknesses}" th:text="${weakness.name}"></li>
             </ul>
+            <ul>
+                <li th:each = "note : ${auditionee.notes}">
+                    <p th:text = "${note.date} + ' ' + ${note.text}"></p>
+                </li>
+            </ul>
         </div>
     </section>
 </body>

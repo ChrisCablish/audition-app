@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class NoteEntry {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime date;
     private String text;
@@ -29,6 +29,9 @@ public class NoteEntry {
         return id;
     }
 
+    public void setAuditionee(Auditionee auditionee) {
+        this.auditionee = auditionee;
+    }
 
     public void setId(Long id) {
         this.id = id;
