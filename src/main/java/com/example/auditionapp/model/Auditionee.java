@@ -1,18 +1,19 @@
 package com.example.auditionapp.model;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Auditionee {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
     @ManyToMany
     @JoinTable(
-            name = "AuditioneeStrengths",
+            name = "auditionee_strengths",
             joinColumns = @JoinColumn(name = "auditionee_id"),
             inverseJoinColumns = @JoinColumn(name = "attribute_id")
     )
@@ -20,20 +21,17 @@ public class Auditionee {
 
     @ManyToMany
     @JoinTable(
-            name = "AuditioneeWeaknesses",
+            name = "auditionee_weaknesses",
             joinColumns = @JoinColumn(name = "auditionee_id"),
             inverseJoinColumns = @JoinColumn(name = "attribute_id")
     )
     private List<Attribute> weaknesses;
 
-    @ManyToMany
-    @JoinTable(
-            name = "AuditioneeNotes",
-            joinColumns = @JoinColumn(name = "auditionee_id"),
-            inverseJoinColumns = @JoinColumn(name = "noteentry_id")
-    )
-    private List<NoteEntry> notes;
+    @OneToMany(mappedBy = "auditionee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NoteEntry> notes = new ArrayList<>();
 
+    @OneToOne(mappedBy = "auditionee", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private Image image;
 
     private int rating;
 

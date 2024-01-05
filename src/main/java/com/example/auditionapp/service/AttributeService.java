@@ -17,11 +17,15 @@ public class AttributeService {
         this.attributeRepository = attributeRepository;
     }
 
-    public List<Attribute> getAllAuditionees() {
+    public List<Attribute> getAllAttributes() {
         return (List<Attribute>) attributeRepository.findAll();
     }
 
-    public Attribute addAuditionee(Attribute attribute) {
+    public Attribute getById (Long id) {
+        return  attributeRepository.findById(id).orElse(null);
+    }
+
+    public Attribute addAttribute(Attribute attribute) {
         return attributeRepository.save(attribute);
     }
 }

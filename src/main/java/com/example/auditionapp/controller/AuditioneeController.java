@@ -1,20 +1,33 @@
 package com.example.auditionapp.controller;
 
+import com.example.auditionapp.model.Attribute;
 import com.example.auditionapp.model.Auditionee;
+import com.example.auditionapp.model.NoteEntry;
+import com.example.auditionapp.service.AttributeService;
 import com.example.auditionapp.service.AuditioneeService;
+import com.example.auditionapp.service.NoteEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class AuditioneeController {
 
     private final AuditioneeService auditioneeService;
+    private final AttributeService attributeService;
+    private final NoteEntryService noteEntryService;
 
     @Autowired
-    public AuditioneeController(AuditioneeService auditioneeService) {
+    public AuditioneeController(AuditioneeService auditioneeService, AttributeService attributeService, NoteEntryService noteEntryService) {
         this.auditioneeService = auditioneeService;
+        this.attributeService = attributeService;
+        this.noteEntryService = noteEntryService;
+
     }
 
     @GetMapping("/")
@@ -25,8 +38,44 @@ public class AuditioneeController {
     }
 
     @GetMapping("/create")
-    public String displayCreateAuditioneeForm () {
+    public String displayCreateAuditioneeForm (Model model) {
+        List<Attribute> attributes = attributeService.getAllAttributes();
+        model.addAttribute("attributes", attributes);
+        model.addAttribute("auditionee", new Auditionee());
         return "create";
+    }
+
+    @PostMapping("/create")
+    public String submitCreateForm (@ModelAttribute("auditionee") Auditionee auditionee, @RequestParam List<Long> strengths, @RequestParam List<Long> weaknesses, @RequestParam String noteText) {
+
+        List<Attribute> strengthAttributes = strengths.stream()
+                .map(attributeService::getById)
+                .collect(Collectors.toList());
+        auditionee.setStrengths(strengthAttributes);
+
+        List<Attribute> weaknessAttributes = weaknesses.stream().
+                map(attributeService::getById)
+                .collect(Collectors.toList());
+        auditionee.setWeaknesses(weaknessAttributes);
+
+        //create auditionee first to get id
+        auditioneeService.addAuditionee(auditionee);
+
+        NoteEntry noteEntry = new NoteEntry();
+        noteEntry.setText(noteText);
+        noteEntry.setAuditionee(auditionee);
+
+        // Save the NoteEntry
+        noteEntryService.addNote(noteEntry);
+
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/individual/{id}")
+    public String displayIndividual (@PathVariable("id") Long id, Model model) {
+        model.addAttribute("auditionee", auditioneeService.getById(id));
+        return "individual";
     }
 
 }

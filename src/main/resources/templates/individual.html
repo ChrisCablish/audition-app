@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF=8"/>
+    <title></title>
+</head>
+<body>
+    <section>
+        <div class="hero">
+            <img src="" alt="">
+        </div>
+        <div class="stats">
+
+            <p th:text = "${auditionee.name}"></p>
+            <p th:text = "${auditionee.rating}"></p>
+            <ul>
+                <li th:each = "strength : ${auditionee.strengths}" th:text="${strength.name}"></li>
+            </ul>
+            <ul>
+                <li th:each = "weakness : ${auditionee.weaknesses}" th:text="${weakness.name}"></li>
+            </ul>
+            <ul>
+                <li th:each = "note : ${auditionee.notes}">
+                    <p th:text = "${note.date} + ' ' + ${note.text}"></p>
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+</html>
