@@ -23,6 +23,10 @@ public class AuditioneeService {
         return (List<Auditionee>) auditioneeRepository.findAll();
     }
 
+    public void deleteById(Long id) {
+        auditioneeRepository.deleteById(id);
+    }
+
     public void addAuditionee(Auditionee auditionee) {
         auditioneeRepository.save(auditionee);
     }
