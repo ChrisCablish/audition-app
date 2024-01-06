@@ -9,7 +9,7 @@ public class Image {
     private Long id;
     private String url;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="auditionee_id")
     private Auditionee auditionee;
 
