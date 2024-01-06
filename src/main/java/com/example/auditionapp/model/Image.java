@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 public class Image {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String url;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="auditionee_id")
     private Auditionee auditionee;
 
@@ -33,5 +33,9 @@ public class Image {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setAuditionee(Auditionee auditionee) {
+        this.auditionee = auditionee;
     }
 }

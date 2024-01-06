@@ -30,7 +30,7 @@ public class Auditionee {
     @OneToMany(mappedBy = "auditionee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NoteEntry> notes = new ArrayList<>();
 
-    @OneToOne(mappedBy = "auditionee", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "auditionee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     private Image image;
 
     private int rating;
@@ -84,6 +84,14 @@ public class Auditionee {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Image getImage() {
+        return image;
     }
 }
 

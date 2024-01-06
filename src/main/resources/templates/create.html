@@ -8,7 +8,7 @@
 <body>
 <section class="container" >
     <h1>Create New Auditionee</h1>
-    <form th:action="@{/create}" th:object="${auditionee}" method="post">
+    <form th:action="@{/create}" th:object="${auditionee}" method="post" enctype="multipart/form-data">
 <!--        NAME-->
         <div class="form-group">
             <label for="name">Name</label>
@@ -51,7 +51,7 @@
         <div class="form-group">
             <div class="mb-3">
                 <label for="formFile" class="form-label">Upload Auditionee Photo</label>
-                <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg">
+                <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg" name="auditioneeImage">
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
