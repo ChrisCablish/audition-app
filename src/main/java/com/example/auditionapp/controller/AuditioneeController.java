@@ -2,6 +2,7 @@ package com.example.auditionapp.controller;
 
 import com.example.auditionapp.model.Attribute;
 import com.example.auditionapp.model.Auditionee;
+import com.example.auditionapp.model.Image;
 import com.example.auditionapp.model.NoteEntry;
 import com.example.auditionapp.service.AttributeService;
 import com.example.auditionapp.service.AuditioneeService;
@@ -71,7 +72,7 @@ public class AuditioneeController {
                                     @RequestParam List<Long> strengths,
                                     @RequestParam List<Long> weaknesses,
                                     @RequestParam String noteText,
-                                    @RequestParam("auditioneeImage") MultipartFile auditioneeImage) {
+                                    @RequestParam(value = "auditioneeImage", required = false) MultipartFile auditioneeImage) {
 
         List<Attribute> strengthAttributes = strengths.stream()
                 .map(attributeService::getById)
@@ -86,15 +87,16 @@ public class AuditioneeController {
         //create auditionee first to get id
         auditioneeService.addAuditionee(auditionee);
 
-//        // Handle Image Upload
-//        if (!auditioneeImage.isEmpty()) {
-//            String imageUrl = uploadImageAndGetUrl(auditioneeImage);
-//            if (imageUrl != null) {
-//                auditionee.setImageUrl(imageUrl);
-//                // Update auditionee with the image URL
-//                auditioneeService.updateAuditionee(auditionee);
-//            }
-//        }
+        // Handle Image Upload
+        if (!auditioneeImage.isEmpty()) {
+            String imageUrl = uploadImageAndGetUrl(auditioneeImage);
+            if (imageUrl != null) {
+                Image image = new Image(imageUrl);
+                auditionee.setImage(image);
+                // Update auditionee with the image URL
+                auditioneeService.addAuditionee(auditionee);
+            }
+        }
 
         //create note entry
         NoteEntry noteEntry = new NoteEntry();
@@ -108,38 +110,40 @@ public class AuditioneeController {
         return "redirect:/";
     }
 
-    private String uploadImageAndGetUrl(MultipartFile imageFile) {
-        try {
-            // Convert image to Base64
-            byte[] imageBytes = imageFile.getBytes();
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-
-            // Prepare URL and Request
-            URL url = new URL("https://freeimage.host/api/1/upload");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-
-            // Write Parameters to Request
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            writer.write("key=6d207e02198a847aa98d0a2a901485a5&source=" + base64Image + "&format=json");
-            writer.flush();
-            writer.close();
-
-            // Read Response
-            InputStream responseStream = new BufferedInputStream(connection.getInputStream());
-            String response = new BufferedReader(new InputStreamReader(responseStream))
-                    .lines().collect(Collectors.joining("\n"));
-            responseStream.close();
-
-            // Parse Response
-            JSONObject jsonResponse = new JSONObject(response);
-            return jsonResponse.getJSONObject("image").getString("url");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    private String uploadImageAndGetUrl(MultipartFile imageFile) {
+//        try {
+//            // Convert image to Base64
+//            byte[] imageBytes = imageFile.getBytes();
+//            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+//
+//            // Prepare URL and Request
+//            URL url = new URL("https://freeimage.host/api/1/upload");
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("POST");
+//            connection.setDoOutput(true);
+//            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//
+//
+//            // Write Parameters to Request
+//            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+//            writer.write("key=6d207e02198a847aa98d0a2a901485a5&source=" + base64Image + "&format=json");
+//            writer.flush();
+//            writer.close();
+//
+//            // Read Response
+//            InputStream responseStream = new BufferedInputStream(connection.getInputStream());
+//            String response = new BufferedReader(new InputStreamReader(responseStream))
+//                    .lines().collect(Collectors.joining("\n"));
+//            responseStream.close();
+//
+//            // Parse Response
+//            JSONObject jsonResponse = new JSONObject(response);
+//            return jsonResponse.getJSONObject("image").getString("url");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     @GetMapping("/individual/{id}")
     public String displayIndividual (@PathVariable("id") Long id, Model model) {

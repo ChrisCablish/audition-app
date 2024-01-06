@@ -85,5 +85,9 @@ public class Auditionee {
     public void setRating(int rating) {
         this.rating = rating;
     }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }
 
