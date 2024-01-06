@@ -9,8 +9,28 @@ import com.example.auditionapp.service.NoteEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Base64Utils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import org.springframework.web.multipart.MultipartFile;
+import org.json.JSONObject;
+
+
+import java.util.Base64;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,9 +109,36 @@ public class AuditioneeController {
     }
 
     private String uploadImageAndGetUrl(MultipartFile imageFile) {
-        // Logic to send the image to the API and parse the response
-        // Return the image URL or null if the upload failed
-        return "urlstringhere";
+        try {
+            // Convert image to Base64
+            byte[] imageBytes = imageFile.getBytes();
+            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+            // Prepare URL and Request
+            URL url = new URL("https://freeimage.host/api/1/upload");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+
+            // Write Parameters to Request
+            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+            writer.write("key=6d207e02198a847aa98d0a2a901485a5&source=" + base64Image + "&format=json");
+            writer.flush();
+            writer.close();
+
+            // Read Response
+            InputStream responseStream = new BufferedInputStream(connection.getInputStream());
+            String response = new BufferedReader(new InputStreamReader(responseStream))
+                    .lines().collect(Collectors.joining("\n"));
+            responseStream.close();
+
+            // Parse Response
+            JSONObject jsonResponse = new JSONObject(response);
+            return jsonResponse.getJSONObject("image").getString("url");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @GetMapping("/individual/{id}")

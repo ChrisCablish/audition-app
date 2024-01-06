@@ -21,8 +21,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'mysql:mysql-connector-java:8.0.23' // use the appropriate version
-
+	implementation 'mysql:mysql-connector-java:8.0.23'
+	implementation 'commons-io:commons-io:2.8.0'
+	implementation 'org.json:json:20210307'
 }
 
 tasks.named('test') {
