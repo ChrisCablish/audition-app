@@ -78,4 +78,10 @@ public class AuditioneeController {
         return "individual";
     }
 
+    @PostMapping("/individual/{id}/delete")
+    public String deleteAuditionee(@PathVariable("id") Long id) {
+        auditioneeService.deleteById(id);
+        return "redirect:/";
+    }
+
 }
